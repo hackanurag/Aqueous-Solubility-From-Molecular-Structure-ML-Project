@@ -4,6 +4,9 @@ import requests
 from rdkit import Chem
 import numpy as np
 from rdkit.Chem import Descriptors
+from sklearn import linear_model
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
 
 try:
     r = requests.get('https://raw.githubusercontent.com/dataprofessor/data/master/delaney.csv')
@@ -58,5 +61,10 @@ desc_AromaticProportion = [AromaticAtoms(element)/Descriptors.HeavyAtomCount(ele
 df_desc_AromaticProportion = pd.DataFrame(desc_AromaticProportion, columns=['AromaticProportion'])
 
 X = pd.concat([df,df_desc_AromaticProportion], axis=1)
+Y = sol.iloc[:,1]
 
-print(X)
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
+
+model = linear_model.LinearRegression()
+model.fit(X_train, Y_train)
+
