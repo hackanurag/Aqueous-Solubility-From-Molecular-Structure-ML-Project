@@ -66,66 +66,61 @@ Y = sol.iloc[:,1]
 
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
 
-model = linear_model.LinearRegression()
-model.fit(X_train, Y_train)
+def training_plot():
+    model = linear_model.LinearRegression()
+    model.fit(X_train, Y_train)
 
-Y_pred_train = model.predict(X_train)
-print('Coefficients:', model.coef_)
-print('Intercept:', model.intercept_)
-print('Mean squared error (MSE): %.2f'
-      % mean_squared_error(Y_train, Y_pred_train))
-print('Coefficient of determination (R^2): %.2f'
-      % r2_score(Y_train, Y_pred_train))
+    Y_pred_train = model.predict(X_train)
+    print('Coefficients:', model.coef_)
+    print('Intercept:', model.intercept_)
+    print('Mean squared error (MSE): %.2f'% mean_squared_error(Y_train, Y_pred_train))
+    print('Coefficient of determination (R^2): %.2f'% r2_score(Y_train, Y_pred_train))
 
-Y_pred_test = model.predict(X_test)
-print('Coefficients:', model.coef_)
-print('Intercept:', model.intercept_)
-print('Mean squared error (MSE): %.2f'
-      % mean_squared_error(Y_test, Y_pred_test))
-print('Coefficient of determination (R^2): %.2f'
-      % r2_score(Y_test, Y_pred_test))
+    Y_pred_test = model.predict(X_test)
+    print('Coefficients:', model.coef_)
+    print('Intercept:', model.intercept_)
+    print('Mean squared error (MSE): %.2f'% mean_squared_error(Y_test, Y_pred_test))
+    print('Coefficient of determination (R^2): %.2f'% r2_score(Y_test, Y_pred_test))
 
-full = linear_model.LinearRegression()
-full.fit(X, Y)
-full_pred = model.predict(X)
+    full = linear_model.LinearRegression()
+    full.fit(X, Y)
+    full_pred = model.predict(X)
 
-print('Coefficients:', full.coef_)
-print('Intercept:', full.intercept_)
-print('Mean squared error (MSE): %.2f'
-      % mean_squared_error(Y, full_pred))
-print('Coefficient of determination (R^2): %.2f'
-      % r2_score(Y, full_pred))
+    print('Coefficients:', full.coef_)
+    print('Intercept:', full.intercept_)
+    print('Mean squared error (MSE): %.2f'% mean_squared_error(Y, full_pred))
+    print('Coefficient of determination (R^2): %.2f'% r2_score(Y, full_pred))
 
-full_yintercept = '%.2f' % full.intercept_
-full_LogP = '%.2f LogP' % full.coef_[0]
-full_MW = '%.4f MW' % full.coef_[1]
-full_RB = '+ %.4f RB' % full.coef_[2]
-full_AP = '%.2f AP' % full.coef_[3]
+    full_yintercept = '%.2f' % full.intercept_
+    full_LogP = '%.2f LogP' % full.coef_[0]
+    full_MW = '%.4f MW' % full.coef_[1]
+    full_RB = '+ %.4f RB' % full.coef_[2]
+    full_AP = '%.2f AP' % full.coef_[3]
 
-print('LogS = ' + ' ' + full_yintercept + ' ' + full_LogP + ' ' + full_MW + ' ' + full_RB + ' ' + full_AP)
+    print('LogS = ' + ' ' + full_yintercept + ' ' + full_LogP + ' ' + full_MW + ' ' + full_RB + ' ' + full_AP)
 
-plt.figure(figsize=(11,5))
+    plt.figure(figsize=(11,5))
 
-# 1 row, 2 column, plot 1
-plt.subplot(1, 2, 1)
-plt.scatter(x=Y_train, y=Y_pred_train, c="#7CAE00", alpha=0.3)
+    # 1 row, 2 column, plot 1
+    plt.subplot(1, 2, 1)
+    plt.scatter(x=Y_train, y=Y_pred_train, c="#7CAE00", alpha=0.3)
 
-z = np.polyfit(Y_train, Y_pred_train, 1)
-p = np.poly1d(z)
-plt.plot(Y_test,p(Y_test),"#F8766D")
+    z = np.polyfit(Y_train, Y_pred_train, 1)
+    p = np.poly1d(z)
+    plt.plot(Y_test,p(Y_test),"#F8766D")
 
-plt.ylabel('Predicted LogS')
-plt.xlabel('Experimental LogS')
+    plt.ylabel('Predicted LogS')
+    plt.xlabel('Experimental LogS')
 
-# 1 row, 2 column, plot 2
-plt.subplot(1, 2, 2)
-plt.scatter(x=Y_test, y=Y_pred_test, c="#619CFF", alpha=0.3)
+    # 1 row, 2 column, plot 2
+    plt.subplot(1, 2, 2)
+    plt.scatter(x=Y_test, y=Y_pred_test, c="#619CFF", alpha=0.3)
 
-z = np.polyfit(Y_test, Y_pred_test, 1)
-p = np.poly1d(z)
-plt.plot(Y_test,p(Y_test),"#F8766D")
+    z = np.polyfit(Y_test, Y_pred_test, 1)
+    p = np.poly1d(z)
+    plt.plot(Y_test,p(Y_test),"#F8766D")
 
-plt.xlabel('Experimental LogS')
+    plt.xlabel('Experimental LogS')
 
-plt.savefig('plot_horizontal_logS.png')
-plt.show()
+    plt.savefig('plot_horizontal_logS.png')
+    plt.show()
