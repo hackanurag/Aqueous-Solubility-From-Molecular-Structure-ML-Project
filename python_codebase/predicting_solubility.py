@@ -66,30 +66,41 @@ Y = sol.iloc[:,1]
 
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
 
+linear_model_user_input = input('Which model data you want ot check: LR(LinearRegression) / R(Ridge) / BR(BayesianRidge):\n').upper()
+
 def training_plot():
-    model = linear_model.LinearRegression()
+    if linear_model_user_input == 'LR':
+        model = linear_model.LinearRegression()
+        full = linear_model.LinearRegression()
+        scatterplot_file_name = 'LinearRegression'
+    elif linear_model_user_input == 'R':
+        model = linear_model.Ridge()
+        full = linear_model.Ridge()
+        scatterplot_file_name = 'Ridge'
+    elif linear_model_user_input == 'BR':
+        model = linear_model.BayesianRidge()
+        full = linear_model.BayesianRidge()
+        scatterplot_file_name = 'BayesianRidge'
+    else:
+       print('Enter a valid input')
+       exit()
+
     model.fit(X_train, Y_train)
-
     Y_pred_train = model.predict(X_train)
-    print('Coefficients:', model.coef_)
-    print('Intercept:', model.intercept_)
-    print('Mean squared error (MSE): %.2f'% mean_squared_error(Y_train, Y_pred_train))
-    print('Coefficient of determination (R^2): %.2f'% r2_score(Y_train, Y_pred_train))
-
     Y_pred_test = model.predict(X_test)
     print('Coefficients:', model.coef_)
     print('Intercept:', model.intercept_)
-    print('Mean squared error (MSE): %.2f'% mean_squared_error(Y_test, Y_pred_test))
-    print('Coefficient of determination (R^2): %.2f'% r2_score(Y_test, Y_pred_test))
-
-    full = linear_model.LinearRegression()
+    print('Mean squared error (MSE) of Train Dataset: %.2f'% mean_squared_error(Y_train, Y_pred_train))
+    print('Coefficient of determination (R^2) of Train Dataset: %.2f'% r2_score(Y_train, Y_pred_train))
+    print('Mean squared error (MSE) of Test Dataset: %.2f'% mean_squared_error(Y_test, Y_pred_test))
+    print('Coefficient of determination (R^2) of Test Dataset: %.2f'% r2_score(Y_test, Y_pred_test))
+    
     full.fit(X, Y)
     full_pred = model.predict(X)
-
     print('Coefficients:', full.coef_)
     print('Intercept:', full.intercept_)
-    print('Mean squared error (MSE): %.2f'% mean_squared_error(Y, full_pred))
-    print('Coefficient of determination (R^2): %.2f'% r2_score(Y, full_pred))
+    print('Mean squared error (MSE) of FULL Dataset: %.2f'% mean_squared_error(Y, full_pred))
+    print('Coefficient of determination (R^2) of FULL Dataset: %.2f'% r2_score(Y, full_pred))
 
     full_yintercept = '%.2f' % full.intercept_
     full_LogP = '%.2f LogP' % full.coef_[0]
@@ -122,5 +133,7 @@ def training_plot():
 
     plt.xlabel('Experimental LogS')
 
-    plt.savefig('plot_horizontal_logS.png')
+    plt.savefig(f'plot_horizontal_logS_{scatterplot_file_name}.png')
     plt.show()
+
+training_plot()
