@@ -7,5 +7,5 @@ If you are using any IDE just run **python_codebase/predicting_solubility.py** a
 *LR(LinearRegression) / R(Ridge) / BR(BayesianRidge)*
 
 If you are running via pyhton command line:<br>
-Windows --> **python .\predicting_solubility.py**
+Windows --> **python .\python_codebase\predicting_solubility.py**
 Linux/MAC(zsh) --> **python3 python_codebase/predicting_solubility.py**
